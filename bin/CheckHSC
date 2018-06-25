@@ -1,0 +1,6 @@
+#!/bin/csh
+
+set procR = `ps -U RunControlUser | grep "HPGeSlowControl" | awk ' {print $1} ' `
+foreach proc ($procR)
+  echo "*** WARNING HPGeSlowControl is already running PID: " $proc
+end

@@ -1,0 +1,714 @@
+#include <CAENDigitizer.h>
+#include <CAENVMElib.h>
+#include <time.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <sys/time.h>
+#include <sys/shm.h>
+#include <string.h>
+#include <math.h>
+#include "SharedMemorySetup.h"
+#include "UtilsFunctions.h"
+#include "V1495Configurator.h"
+
+circBuffer* pSharedBuffer;
+int handleV1742, handleDT5780, handleV1495, handleDT5743;
+DaqSharedMemory* pDaqSharedMemory;
+uint32_t pBufferSizeV1742, pAllocatedSizeV1742,pBufferSizeDT5780, pAllocatedSizeDT5780, pBufferSizeDT5743, pAllocatedSizeDT5743;
+
+//encoding DT5743
+uint32_t encBufferSizeDT5743; 
+char *encBufferDT5743 = NULL;
+uint32_t encHeadSize = 16;    //4word * 4byte
+
+int err_code;
+char *pbufferV1742 = NULL;  
+char *pbufferDT5780 = NULL;  
+char *pbufferDT5743 = NULL;
+uint32_t *pbufferV1495;        // Memory buffer for blt
+uint32_t baseAddressV1495;     // Base Address
+int isGCAL=0, isCSPEC=0, isNRSS=0;
+char logFilename[100];
+unsigned short debugging=1;
+double mytimestop;
+int isV1742=0;
+int isDT5780=0;
+int isV1495=0;
+int isSoftwareTrigger=0;
+int isTestHPGe = 0;
+int  TrgCntV1742 = 0;
+int  TrgCntAlfa = 0;
+int  TrgCntDT5780 = 0;
+int  TrgCntSiStrip = 0;
+int  TrgCntGamma = 0;
+int  TrgCntNRSS = 0;
+char Device[10];
+
+/*************************************************************************************************************/
+void startDaqV1742() {
+/*************************************************************************************************************/
+  err_code=0;
+  if(isGCAL)
+    err_code |= CAEN_DGTZ_OpenDigitizer(pDaqSharedMemory->connectionParamsV1742GCAL[0],pDaqSharedMemory->connectionParamsV1742GCAL[1],
+                                        pDaqSharedMemory->connectionParamsV1742GCAL[2],pDaqSharedMemory->connectionParamsV1742GCAL[3],&handleV1742);
+  else
+    err_code |= CAEN_DGTZ_OpenDigitizer(pDaqSharedMemory->connectionParamsV1742BaF[0],pDaqSharedMemory->connectionParamsV1742BaF[1],
+                                        pDaqSharedMemory->connectionParamsV1742BaF[2],pDaqSharedMemory->connectionParamsV1742BaF[3], &handleV1742);
+  if(err_code!=0) printf("***Open digitizer error %i \n",err_code);
+
+  err_code |= CAEN_DGTZ_MallocReadoutBuffer(handleV1742, &pbufferV1742,&pAllocatedSizeV1742);
+  if(err_code!=0) printf("***Malloc readout buffer error %i \n",err_code);
+
+  err_code |= CAEN_DGTZ_ClearData(handleV1742);
+  if(err_code!=0) printf("***Clear data error %i \n",err_code);
+
+  err_code |= CAEN_DGTZ_SWStartAcquisition(handleV1742);
+  if(!err_code) printf("\n%s Producer: acquisition started for board V1742 %i \n",Device,err_code);
+  else {
+    printf("***%s Producer: ERROR opening V1742 device %i \n",Device,err_code);
+    exit(1);
+  }
+}
+
+
+/*************************************************************************************************************/
+void startDaqDT5780() {
+/*************************************************************************************************************/
+
+  err_code |= CAEN_DGTZ_OpenDigitizer(pDaqSharedMemory->connectionParamsDT5780[0],pDaqSharedMemory->connectionParamsDT5780[1],
+                                      pDaqSharedMemory->connectionParamsDT5780[2],pDaqSharedMemory->connectionParamsDT5780[3], &handleDT5780);
+  err_code |= CAEN_DGTZ_MallocReadoutBuffer(handleDT5780, &pbufferDT5780,&pAllocatedSizeDT5780);
+  err_code |= CAEN_DGTZ_ClearData(handleDT5780);
+  err_code |= CAEN_DGTZ_SWStartAcquisition(handleDT5780);
+
+  if(!err_code) {
+    printf("\n%s Producer: acquisition started for board DT5780 %i \n",Device,err_code);
+  }
+  else {
+    printf("*** %s Producer: ERROR opening DT5780 device %i \n",Device,err_code);
+    exit(1);
+  }
+}
+
+
+
+/*************************************************************************************************************/
+void startDaqDT5743() {
+/*************************************************************************************************************/  
+  err_code |= CAEN_DGTZ_OpenDigitizer(pDaqSharedMemory->connectionParamsDT5743[0],pDaqSharedMemory->connectionParamsDT5743[1],pDaqSharedMemory->connectionParamsDT5743[2] , pDaqSharedMemory->connectionParamsDT5743[3], &handleDT5743);
+
+
+for(int i = 0; i<4 ; i++){
+	uint32_t dcoffval = 0x0000; 
+	uint32_t trigval = 0x0000; 
+	
+	err_code |= CAEN_DGTZ_GetChannelDCOffset(handleDT5743, 2*i, &dcoffval); 
+	err_code |= CAEN_DGTZ_GetChannelTriggerThreshold(handleDT5743, 2*i +1, &trigval); 
+	printf("ATSTARTUP   --- DCOffset ch %i) %i (0x%x)\t TriggerLevel) %i (0x%x)\n", 2*i, dcoffval, dcoffval, trigval, trigval);
+	printf("ATSTARTUP   --- DCOffset ch %i) %i (0x%x)\t TriggerLevel) %i (0x%x)\n", 2*i+1, dcoffval, dcoffval, trigval, trigval);
+
+	//debug leggo il registro del group n trigger (0x1n3C)
+        uint32_t regT;
+	uint32_t readrT;	
+	switch(i){
+	case 0:
+		regT = 0x103C;
+		break;
+	case 1:
+		regT = 0x113C;
+		break;
+	case 2:
+		regT = 0x123C;
+		break;
+	case 3:
+		regT = 0x133C;
+		break;
+	}
+	ret |= CAEN_DGTZ_ReadRegister(handleDT5743, regT, &readrT);
+	printf("Group trig reg %i (0x%x) = 0x%x\n",i,regT, readrT);
+
+  }
+
+
+
+
+
+  err_code |= CAEN_DGTZ_MallocReadoutBuffer(handleDT5743, &pbufferDT5743,&pAllocatedSizeDT5743);
+  err_code |= CAEN_DGTZ_ClearData(handleDT5743);
+
+  //err_code |= CAEN_DGTZ_LoadSAMCorrectionData(handleDT5743);
+
+
+  err_code |= CAEN_DGTZ_SWStartAcquisition(handleDT5743);
+  
+  if(!err_code) {
+    printf("\n%s Producer: acquisition started for board DT5743 %i \n",Device,err_code);
+  }
+  else {
+    printf("*** %s Producer: ERROR opening DT5743 device %i \n",Device,err_code);
+    exit(1);
+  }
+ 
+}
+
+/*************************************************************************************************************/
+void startDaqV1495() {
+/*************************************************************************************************************/
+  if( CAENVME_Init(cvV2718,pDaqSharedMemory->connectionParamsV1495[0] , 0, &handleV1495) == cvSuccess )
+    printf("\n%s Producer: Acquisition started for board V1495 %i \n",Device,err_code);
+  else {
+    printf("*** %s Producer: ERROR opening V1495 device %i \n",Device,CAENVME_DecodeError(err_code));
+    exit(1);
+  }
+
+  // Clear the VME bus 
+  CAENVME_SystemReset(handleV1495);
+
+  pbufferV1495 = (uint32_t *)malloc(1024);
+  baseAddressV1495 = pDaqSharedMemory->connectionParamsV1495[1]<<16;
+}
+
+
+
+void stopDaq(int handle) {
+  err_code = CAEN_DGTZ_SWStopAcquisition(handle);
+  CAEN_DGTZ_ClearData(handle);
+  err_code = CAEN_DGTZ_CloseDigitizer(handle);
+}
+
+
+/*************************************************************************************************************/
+void PrintStat() {
+/*************************************************************************************************************/
+   mytimestop=getTime();
+   if(isGCAL) {
+     printf("\n\n%s Producer: Trigger count V1742: %i \n",Device,TrgCntV1742);
+     printf("%s Producer: Trigger Rate  V1742: %f \n",Device,TrgCntV1742/(mytimestop-pDaqSharedMemory->startTime));
+   }
+   else if(isNRSS){
+       printf("%s Producer: Trigger count NRSS: %i \n",Device,TrgCntNRSS);
+       printf("%s Producer: Trigger Rate  NRSS: %f \n",Device,TrgCntNRSS/(mytimestop-pDaqSharedMemory->startTime));
+   }
+   else {
+     if(isV1742) {
+       printf("\n\n%s Producer: Trigger count V1742: %i \n",Device, TrgCntV1742);
+       printf("%s Producer: Trigger Rate  V1742: %f \n",Device,TrgCntV1742/(mytimestop-pDaqSharedMemory->startTime));
+       printf("%s Producer: Trigger count Gamma: %i \n",Device,TrgCntGamma);
+       printf("%s Producer: Trigger Rate  Gamma: %f \n",Device,TrgCntGamma/(mytimestop-pDaqSharedMemory->startTime));
+       printf("%s Producer: Trigger count Alpha: %i \n",Device,TrgCntAlfa);
+       printf("%s Producer: Trigger Rate  Alpha: %f \n",Device,TrgCntAlfa/(mytimestop-pDaqSharedMemory->startTime));
+     }
+     if(isDT5780) {
+       printf("%s Producer: Trigger count HPGe: %i \n",Device,TrgCntDT5780);
+       printf("%s Producer: Trigger Rate  HPGe: %f \n",Device,TrgCntDT5780/(mytimestop-pDaqSharedMemory->startTime));
+     }
+
+     if(isV1495) {
+       printf("%s Producer: Trigger count SiStrip: %i \n",Device,TrgCntSiStrip);
+       printf("%s Producer: Trigger Rate  SiStrip: %f \n",Device,TrgCntSiStrip/(mytimestop-pDaqSharedMemory->startTime));
+     }
+   }
+
+}
+
+/*************************************************************************************************************/
+void UpdateLogFile() {
+/*************************************************************************************************************/
+
+  PrintStat();
+  fflush(stdout);
+  fclose (stdout);
+
+  TrgCntV1742 = 0;
+  TrgCntAlfa = 0;
+  TrgCntDT5780 = 0;
+  TrgCntSiStrip = 0;
+  TrgCntGamma = 0;
+  TrgCntNRSS = 0;
+
+  if(debugging) sprintf(logFilename,"Log/Producer_Run%i",pDaqSharedMemory->runNumber);
+  else sprintf(logFilename,"Log/LogFile_Run%i",pDaqSharedMemory->runNumber);
+  freopen (logFilename,"a",stdout);
+  freopen (logFilename,"a",stderr);
+  printf("%s Producer: Opening %s \n",Device,logFilename);
+  fflush(stdout);
+
+}
+
+
+
+
+int main(int argc, char **argv)  {
+
+  int stopdaq;
+  char chanMask;
+  int timeoutDT5780 = 10; // 1ms
+  int timeoutDT5743 = 10; // 1ms
+  uint32_t data;          // Data
+  CVAddressModifier  AM = cvA32_U_DATA ;// Addressing Mode
+  CVDataWidth DW = cvD32 ;		// Data Format
+  uint32_t  bltsV1495 = 4096 ;		// Block size for blt (bytes)
+  int SleepTime;
+  int ready,nbyte,nword32bit;
+  int myc=0;
+  int currRun;
+
+// decode DT5743 test
+  uint32_t numEvents;
+  char * evtptr = NULL;
+  CAEN_DGTZ_EventInfo_t eventInfo;
+  CAEN_DGTZ_X743_EVENT_t *Evt = NULL;
+//
+
+  while ((myc = getopt (argc, argv, "d:")) != -1)
+    switch (myc)
+      {
+      case 'd':
+	strcpy ((char *) Device, optarg);
+	if(strstr(Device, "GCAL")!=NULL) isGCAL=1;
+	else if(strstr(Device, "CSPEC")!=NULL) isCSPEC=1;
+        else if(strstr(Device, "NRSS")!=NULL) isNRSS=1;
+	break;
+      }
+
+  printf("\n%s Producer: Configuring DAQSharedMemory \n",Device);
+  pDaqSharedMemory=configDaqSharedMemory("Producer");
+
+  if(debugging) sprintf(logFilename,"Log/Producer_Run%i",pDaqSharedMemory->runNumber);
+  else sprintf(logFilename,"Log/LogFile_Run%i",pDaqSharedMemory->runNumber);
+  freopen (logFilename,"a",stdout);
+  freopen (logFilename,"a",stderr);
+  printf("\n%s Producer: Opening %s \n",Device,logFilename);
+
+
+  printf("\n%s Producer: Configuring SharedBuffer \n",Device);
+  if(isCSPEC) {
+    isV1742=pDaqSharedMemory->IncludeBaF;
+    isDT5780=pDaqSharedMemory->IncludeHPGe;
+    isV1495=pDaqSharedMemory->IncludeSiStrip;
+    isTestHPGe=pDaqSharedMemory->testHPGe;
+    pSharedBuffer=configSharedBuffer("Producer",keyCSPEC);
+    pDaqSharedMemory->stopCSPECproducer=0;  // This flag signals to the Consumer that the sharedbuffer is allocated
+  }
+  else if(isGCAL){
+    pSharedBuffer=configSharedBuffer("Producer",keyGCAL);
+    pDaqSharedMemory->stopGCALproducer=0;
+  }
+  else if(isNRSS){
+    pSharedBuffer=configSharedBuffer("Producer",keyNRSS);
+    pDaqSharedMemory->stopNRSSproducer=0;
+  }
+  pSharedBuffer->tail=-1;
+  pSharedBuffer->head=0;
+  isSoftwareTrigger=pDaqSharedMemory->softwareTrigger;
+  if(isSoftwareTrigger || isTestHPGe) SleepTime= (int) 1000000/pDaqSharedMemory->SoftwareTrgRate;
+
+
+  if(isDT5780) startDaqDT5780();
+  if(isV1742 || isGCAL) startDaqV1742();
+  if(isV1495 || isTestHPGe) startDaqV1495();
+  if(isNRSS) startDaqDT5743();
+  fflush(stdout);
+
+  pDaqSharedMemory->startTime=getTime();
+  currRun=pDaqSharedMemory->runNumber;
+
+ 
+  while(pDaqSharedMemory->stopDAQ==0) {
+ 
+    if(pDaqSharedMemory->runNumber!=currRun) {
+      currRun=pDaqSharedMemory->runNumber;
+      UpdateLogFile();
+      printf("\n%s Producer: Starting new run %i\n",Device,currRun);
+      pDaqSharedMemory->startTime=getTime();
+    }
+
+    if (isSoftwareTrigger) usleep(SleepTime);
+
+ if(isV1742 || isGCAL) {    
+      if (isSoftwareTrigger) CAEN_DGTZ_SendSWtrigger(handleV1742);  
+      err_code = CAEN_DGTZ_ReadData(handleV1742, CAEN_DGTZ_SLAVE_TERMINATED_READOUT_MBLT, pbufferV1742, &pBufferSizeV1742);
+      if(err_code!=0) {
+        printf("*** %s Producer: ERROR reading V1742 data %i\n",Device,err_code);
+        fflush(stdout);
+      }
+      if (pBufferSizeV1742 == 0) {
+        usleep(100);
+        if(pDaqSharedMemory->stopDAQ==0) continue;
+        else break;
+      } 
+
+      if(debugging) printf("%s Producer: V1742 data buffer size %u \n",Device,pBufferSizeV1742);
+      
+      if(isGCAL) writeCircularBuffer(pSharedBuffer, (char*) &pDaqSharedMemory->gcalStatus,4);
+      else writeCircularBuffer(pSharedBuffer, (char*) &pDaqSharedMemory->bafStatus,4);
+      writeTimeStamp(pSharedBuffer);
+      writeCircularBuffer(pSharedBuffer, pbufferV1742, pBufferSizeV1742);
+      TrgCntV1742++;
+ 
+      if(isCSPEC) {
+	chanMask = *(long *)(pbufferV1742+4) & 0x0000000F;
+	if((chanMask >> 2) & 0x1)  {
+	  pDaqSharedMemory->EventsProd[BaFAlfa]++;
+	  TrgCntAlfa++;
+	}
+	if(!(chanMask & 0x1)) { // se non c'e' il gamma
+	  continue;  // it is only alpha particle
+        } 
+        else {
+	  TrgCntGamma++;
+	  pDaqSharedMemory->EventsProd[BaFGamma]++;
+	}
+      } 
+      else {
+        pDaqSharedMemory->EventsProd[GCAL]=TrgCntV1742;
+        continue;
+      }
+    
+
+      if(debugging) printf("%s Producer: Event number gamma %i    alfa %i    bafStatus %i\n",
+        Device,pDaqSharedMemory->EventsProd[BaFGamma],pDaqSharedMemory->EventsProd[BaFAlfa],pDaqSharedMemory->bafStatus) ;
+  } //end V1742 block
+
+
+    if(isDT5780) {
+      if(isTestHPGe) {
+        usleep(SleepTime);
+        data = DATA_V1495_SENDEXTTRG;
+        err_code =CAENVME_WriteCycle(handleV1495, baseAddressV1495 | REG_V1495_SOFTTRG, &data,AM, DW);
+        if(err_code != cvSuccess) {
+          printf("*** %s Producer: ERROR sending external trigger to V1495: %s \n",Device,CAENVME_DecodeError(err_code)) ;
+          fflush(stdout);
+        }
+      }
+
+      if (isSoftwareTrigger) CAEN_DGTZ_SendSWtrigger(handleDT5780);
+
+      int nloop=0;
+      while(nloop<=timeoutDT5780) {
+        err_code = CAEN_DGTZ_ReadData(handleDT5780, CAEN_DGTZ_SLAVE_TERMINATED_READOUT_MBLT, pbufferDT5780, &pBufferSizeDT5780);
+	if(err_code!=0) {
+          printf("*** %s Producer: ERROR reading DT5780 data %i\n",Device,err_code);
+          fflush(stdout);
+	}
+	if(pBufferSizeDT5780 == 0) {
+	  nloop++;
+	  usleep(100);
+	  if(pDaqSharedMemory->stopDAQ) break;
+	} 
+        else break;
+      }
+
+      if(nloop < timeoutDT5780) {
+        if(debugging) printf("%s Producer: DT5780 data buffer size %u \n",Device,pBufferSizeDT5780);
+        writeCircularBuffer(pSharedBuffer, (char*) &pDaqSharedMemory->hpgeStatus,4);
+        writeTimeStamp(pSharedBuffer);
+        writeCircularBuffer(pSharedBuffer, pbufferDT5780, pBufferSizeDT5780);
+        TrgCntDT5780++;
+        pDaqSharedMemory->EventsProd[HPGe]++;
+      } 
+
+      else {
+        if(isV1742) {
+          printf("*** %s Producer: WARNING - timeout %i us waiting HpGe events \n",Device,timeoutDT5780*100);
+	  fflush(stdout);
+        }
+      }
+
+      if(debugging) printf("%s Producer: Event number %i  hpgeStatus %i\n",Device,pDaqSharedMemory->EventsProd[HPGe],pDaqSharedMemory->hpgeStatus);
+
+	} // end DT5780 block
+
+
+ //DT5743 block
+
+ double DT5743timestart, DT5743timestop_decode, DT5743timestop_encode, DT5743timestop_final;
+ 
+ if(isNRSS) {
+    
+      if (isSoftwareTrigger) CAEN_DGTZ_SendSWtrigger(handleDT5743);
+
+      int nloop=0;
+
+      while(nloop<=timeoutDT5743) {
+        encBufferSizeDT5743 = 0;
+        err_code = CAEN_DGTZ_ReadData(handleDT5743, CAEN_DGTZ_SLAVE_TERMINATED_READOUT_MBLT, pbufferDT5743, &pBufferSizeDT5743);
+        if(err_code!=0) {
+          printf("*** %s Producer: ERROR reading DT5743 data %i\n",Device,err_code);
+          fflush(stdout);
+        }
+        if(pBufferSizeDT5743 == 0) {
+          nloop++;
+          usleep(100);
+          printf("%s Producer: pBufferSizeDT5743 %i, nloop %i\n",Device,pBufferSizeDT5743, nloop);
+          if(pDaqSharedMemory->stopDAQ) break;
+        } 
+        else break;
+      }
+
+      if(nloop < timeoutDT5743) {
+
+        DT5743timestart = getTime();
+
+       
+        //The following function returns the number of events in the buffer 
+        err_code = CAEN_DGTZ_GetNumEvents(handleDT5743, pbufferDT5743, pBufferSizeDT5743, &numEvents);
+        printf("DT5743: numEvents %i\n",numEvents);
+        if(numEvents != 1) {
+          printf("*** %s Producer: WRONG DT5743 data %i\n",Device,err_code);
+          fflush(stdout);
+          }
+
+
+          err_code = CAEN_DGTZ_GetEventInfo(handleDT5743, pbufferDT5743, pBufferSizeDT5743, 0, &eventInfo, &evtptr);
+          //printf(" eventInfo->EventSize %i \n", eventInfo.EventSize);
+          //printf(" eventInfo->BoardId %i \n", eventInfo.BoardId);
+          //printf(" eventInfo->Pattern %i \n", eventInfo.Pattern);
+          //printf(" eventInfo->ChannelMask %i \n", eventInfo.ChannelMask);
+          //printf(" eventInfo->EventCounter %i \n", eventInfo.EventCounter);
+          //printf(" eventInfo->TriggerTimeTag %i \n", eventInfo.TriggerTimeTag);
+          //CAEN_DGTZ_SAMFrequency_t *freq;
+	  //CAEN_DGTZ_GetSAMSamplingFrequency(handleDT5743, freq); 
+          //printf(" sampling freq: %i\n", freq); 
+
+          
+          // Decode the event to get the data 
+          CAEN_DGTZ_AllocateEvent(handleDT5743, (void**)&Evt);
+          err_code = CAEN_DGTZ_DecodeEvent(handleDT5743, evtptr, (void**)&Evt);
+
+          //printf(" ChSize %u \n", Evt->DataGroup[0].ChSize);
+          uint32_t chSize = Evt->DataGroup[0].ChSize;
+
+	  DT5743timestop_decode = getTime() - DT5743timestart;
+
+          //write new "decoded buffer for producer
+         uint32_t n_gractive = 0;
+	 for(int gri = 0; gri<4; gri++){
+		if(Evt->GrPresent[gri]==1) n_gractive++;
+	 }
+           	   
+
+	  encBufferSizeDT5743 = encHeadSize + n_gractive*chSize*4 + n_gractive*4; 
+	                    //   header 4w    //         nADC      //first (control) row per group
+
+          printf("encBufferSize = %i", encBufferSizeDT5743);
+          encBufferDT5743 = (char *)malloc(encBufferSizeDT5743);       //encode buffer	
+
+          char *bufmover = encBufferDT5743;
+          //int bmcounter = 0;
+          //Copio completamente l'header CAEN ma sostituisco il size (prima word & 0x0fffffff) con il size corretto
+          uint32_t firstRow = 0x00000000;
+	  firstRow |= (encBufferSizeDT5743/4);
+	  firstRow |= (0xa<<28);
+	  memcpy(bufmover, &firstRow, 4);
+          printf(" | 1st row = 0x%x \n", firstRow);
+          //righe 2, 3, 4
+	  for(int wi = 4; wi<encHeadSize; wi++)
+             *(encBufferDT5743 + wi) = *(pbufferDT5743 + wi);
+
+	  bufmover += encHeadSize;  //prima riga della waveform
+ 	  //bmcounter += encHeadSize;
+	  for(int gri = 0; gri<4; gri++){
+	    if(Evt->GrPresent[gri]==0) continue;
+            //riga di inizio del gruppo  |01101001| ---ChSize(16)--- |Gr3 Gr2 Gr1 Gr0|
+            uint32_t grhead = 0x00000000;
+            grhead |= (0x69<<24);
+	    grhead |= ((uint16_t)Evt->DataGroup[gri].ChSize<<8);
+            grhead |= (0x1<<gri);	
+            //sprintf(bufmover,"%u",grhead);
+	    memcpy(bufmover, &grhead, 4);
+            bufmover +=4;
+            //bmcounter +=4;
+            //free(cgrhead);
+            //compressione e scrittura delle waveforms 
+            for (int j=0;j<Evt->DataGroup[gri].ChSize;j++) {
+             float f0 = Evt->DataGroup[gri].DataChannel[0][j];
+	     float f1 = Evt->DataGroup[gri].DataChannel[1][j];
+                 
+             
+		uint32_t w01;
+		//=======================conversione float to half (da inserire in funzione a parte==================//
+		//================== funzione da https://gist.github.com/martinkallman/5049614 //
+	        
+
+                uint32_t inu0 = *((uint32_t*)&f0);
+        	uint32_t t01;
+        	uint32_t t02;
+        	uint32_t t03;
+
+        	t01 = inu0 & 0x7fffffff;                  // Non-sign bits
+        	t02 = inu0 & 0x80000000;                   // Sign bit
+        	t03 = inu0 & 0x7f800000;                   // Exponent
+        
+        	t01 >>= 13;                               // Align mantissa on MSB
+        	t02 >>= 16;                               // Shift sign bit into position
+
+        	t01 -= 0x1c000;                           // Adjust bias
+
+        	//t01 = (t03 > 0x38800000) ? 0 : t01;       // Flush-to-zero    //mi danno problemi con la conversione
+        	//t01 = (t03 < 0x8e000000) ? 0x7bff : t01;  // Clamp-to-max
+        	t01 = (t03 == 0 ? 0 : t01);               // Denormals-as-zero
+
+		t01 |= t02; // Re-insert sign bit
+
+                //w01 = t01;
+                                          //=====//
+
+                uint32_t inu1 = *((uint32_t*)&f1);
+        	uint32_t t11;
+        	uint32_t t12;
+        	uint32_t t13;
+
+        	t11 = inu1 & 0x7fffffff;                 // Non-sign bits
+        	t12 = inu1 & 0x80000000;                 // Sign bit
+        	t13 = inu1 & 0x7f800000;                 // Exponent
+        
+        	t11 >>= 13;                             // Align mantissa on MSB
+        	t12 >>= 16;                             // Shift sign bit into position
+
+        	t11 -= 0x1c000;                         // Adjust bias
+
+        	//t11 = (t13 > 0x38800000) ? 0 : t11;       // Flush-to-zero
+        	//t11 = (t13 < 0x8e000000) ? 0x7bff : t11;  // Clamp-to-max
+        	t11 = (t13 == 0 ? 0 : t11);               // Denormals-as-zero
+
+		t11 |= t12; // Re-insert sign bit
+
+
+                w01 = t01 | (t11<<16);
+		
+		//=====================================================================================//
+
+             memcpy(bufmover, &w01, 4);
+	     bufmover +=4;
+	     //bmcounter +=4;
+            }
+	 }
+	 //printf("bmcounter = %i \n",bmcounter);
+          
+	  DT5743timestop_encode = getTime() - DT5743timestart;
+          err_code = CAEN_DGTZ_FreeEvent(handleDT5743, (void**)&Evt);
+       
+         //}//end of the decode loop
+         
+      // int sz = encBufferSizeDT5743/4;            
+      // printf("--> encbuffer has %i words:\n",sz);     
+      //   for(int t =0; t<sz; t++){
+      //            uint32_t wpb= *(uint32_t*)(encBufferDT5743+t*4);
+      //	  printf("%i) \t 0x%x \n",t,wpb);
+      //	}
+
+
+
+
+        printf("%s Producer: pBufferSizeDT5743 %i, nloop %i\n",Device,pBufferSizeDT5743, nloop);
+        printf("%s Producer: pDaqSharedMemory->nrssStatus %i\n",Device,pDaqSharedMemory->nrssStatus);
+        writeCircularBuffer(pSharedBuffer, (char*) &pDaqSharedMemory->nrssStatus,4);
+        writeTimeStamp(pSharedBuffer);
+        //writeCircularBuffer(pSharedBuffer, pbufferDT5743, pBufferSizeDT5743);
+        writeCircularBuffer(pSharedBuffer, encBufferDT5743, encBufferSizeDT5743);  // <-- non va il consumer con questo comando
+        TrgCntNRSS++;
+        pDaqSharedMemory->EventsProd[NRSS]++;
+
+        //free(encBufferDT5743);
+
+	DT5743timestop_final = getTime()- DT5743timestart;
+	printf("=============== DT5743 time analysis ============\n");
+	printf("Decoding: %f \n", DT5743timestop_decode);	
+	printf("Encoding: %f \n", DT5743timestop_encode);
+	printf("Producer final: %f \n", DT5743timestop_final);
+	printf("=============== DT5743 time analysis ============\n");
+        //!!!! debug
+        //pbufferDT5743 +=16;
+        //printf("G0head = 0x%x\n", *(uint32_t*)pbufferDT5743 & 0xFF000000);
+      } 
+
+      if(debugging) printf("%s Producer: Event number %i  nrssStatus %i\n",Device,pDaqSharedMemory->EventsProd[NRSS],pDaqSharedMemory->nrssStatus);
+
+    } // end DT5743 block
+
+   if(isV1495) {
+      if(isSoftwareTrigger) {
+        data = DATA_V1495_SENDSOFTTRG;
+        err_code =CAENVME_WriteCycle(handleV1495, baseAddressV1495 | REG_V1495_SOFTTRG, &data,AM, DW);
+        if(err_code != cvSuccess) {
+          printf("\n***%s Producer: ERROR sending software trigger to V1495 : %s \n",Device,CAENVME_DecodeError(err_code)) ;
+          fflush(stdout);
+        }
+      }
+
+      ready=0;
+      while(!ready) {
+        if(pDaqSharedMemory->stopDAQ) break;
+        err_code = CAENVME_ReadCycle(handleV1495, baseAddressV1495 | REG_V1495_DATAREADY,&ready,AM,DW);
+        if(err_code != cvSuccess) {
+          printf("\n***%s Producer: ERROR reading V1495 ready register: %s \n",Device,CAENVME_DecodeError(err_code)) ;
+          fflush(stdout);
+          usleep(1000);
+        }
+      }
+
+      for (int j=0;j<(bltsV1495/4);j++) pbufferV1495[j]=0;
+      err_code = CAENVME_BLTReadCycle(handleV1495,baseAddressV1495,(char *)pbufferV1495,bltsV1495,cvA32_U_BLT,DW,&nbyte);
+      if(err_code != cvSuccess) {
+        printf("\n***%s Producer: ERROR during V1495 BLT read Cycle %s \n",Device,CAENVME_DecodeError(err_code));
+        printf("                   Read %u bytes \n",nbyte);
+        fflush(stdout);
+      }
+      writeCircularBuffer(pSharedBuffer, (char*) &pDaqSharedMemory->sistripStatus,4);
+      writeTimeStamp(pSharedBuffer);
+      nword32bit=1+nbyte/4; // 1 word di header + le word a 32 bit di dati
+      writeCircularBuffer(pSharedBuffer, (char*) &nword32bit, caenHeaderSize);
+      if(nbyte>0) writeCircularBuffer(pSharedBuffer, (char*) pbufferV1495, nbyte); //Protection against BLT error
+      TrgCntSiStrip++;
+      pDaqSharedMemory->EventsProd[SiStrip]++;
+
+      if(debugging) printf("%s Producer: Event number %i  -   Read %u bytes   sistripStatus %i\n",
+             Device,pDaqSharedMemory->EventsProd[SiStrip],nbyte,pDaqSharedMemory->sistripStatus);
+    }
+
+  } // end main loop (stopDAQ==0)
+
+
+  if(isV1742||isGCAL) stopDaq(handleV1742);
+  if(isDT5780) stopDaq(handleDT5780);
+  if(isV1495) {
+    CAENVME_End(handleV1495);
+    // Clear the VME bus
+    CAENVME_SystemReset(handleV1495);
+  }
+  if(isNRSS) stopDaq(handleDT5743);
+  
+  int wait=0, stopConsumer;
+  if(isCSPEC) stopConsumer=pDaqSharedMemory->stopCSPECconsumer;
+  else if(isGCAL) stopConsumer=pDaqSharedMemory->stopGCALconsumer;
+  else if(isNRSS) stopConsumer=pDaqSharedMemory->stopNRSSconsumer;
+  while(stopConsumer !=1) {
+    if(wait>3) break;
+    sleep(1);
+    printf("%s Producer: Waiting the termination of Consumer %i s - stopConsumer %i \n",Device,wait+1,stopConsumer);
+    wait++;
+  }
+  printf("%s Deleting the Producer shared buffer \n",Device);
+  if(isCSPEC){
+    deleteSharedBuffer(keyCSPEC,pSharedBuffer,1);
+    pDaqSharedMemory->stopCSPECproducer=1;
+  }
+  else if(isGCAL){
+    deleteSharedBuffer(keyGCAL,pSharedBuffer,1);
+    pDaqSharedMemory->stopGCALproducer=1;
+  }
+  else if(isNRSS){
+    deleteSharedBuffer(keyNRSS,pSharedBuffer,1);
+    pDaqSharedMemory->stopNRSSproducer=1;
+  }
+
+  printf("%s Detaching the Producer shared memory \n",Device);
+  deleteDaqSharedMemory(pDaqSharedMemory,0);
+
+  fflush(stdout);
+  fclose (stdout);
+
+  exit(0);
+}
+

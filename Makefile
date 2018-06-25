@@ -1,0 +1,58 @@
+
+SRCDIR  =       ./src
+BINDIR  =    	./bin
+LIBDIR  =       ./lib
+MAINDIR =       ./main
+
+
+CFLAGS	= -g -std=gnu99 `pkg-config --libs --cflags gtk+-2.0`
+CC	=	gcc $(CFLAGS)
+COPTS	=	-fPIC -DUNIX -DLINUX
+
+#C++     =       g++ -std=gnu++11 -g `root-config --cflags --libs`
+C++     =       g++  -g `root-config --cflags --libs`
+
+DEPLIBS	=	`pkg-config --libs-only-l gtk+-2.0` -lCAENDigitizer -lCAENDPPLib -lCAENVME -lcaenhvwrapper -lrt 
+
+#LIBS	=	-L..
+
+INCLUDEDIR =	-I./include
+
+
+LIBOBJS   = $(patsubst %.c, %.o, $(wildcard $(SRCDIR)/*.c))
+LIBNAME   = $(LIBDIR)/libCaenico.so
+
+
+INCLUDES =	$(wildcard include/*.h)
+
+CPROGRAMS = RunControl Consumer Producer Plotter SlowControl HPGeSlowControl 
+ 
+CPPPROGRAMS = tupleMakerCSPEC tupleMakerGCAL tupleMakerNRSS SiStripPedestal
+
+#########################################################################
+
+all	:	$(CPROGRAMS) $(CPPPROGRAMS)
+
+$(LIBOBJS):	$(INCLUDES) Makefile
+$(LIBNAME) : 	$(LIBOBJS)
+		ld -G -o $(LIBNAME) $(LIBOBJS) $(DEPLIBS) 
+
+
+
+$(CPROGRAMS) : 	$(LIBNAME) 
+		$(CC) $(COPTS) $(INCLUDEDIR) -o $(BINDIR)/$@ $(MAINDIR)/$@.c $(LIBNAME) $(DEPLIBS) 
+
+
+$(CPPPROGRAMS):  
+		$(C++)  -o $(BINDIR)/$@ $(MAINDIR)/$@.C `root-config --cflags --libs`	
+
+
+
+
+
+clean	:
+		/bin/rm -f $(LIBNAME) $(LIBOBJS) $(PROGRAMS)
+
+%.o	:	%.c
+		$(CC) $(COPTS) $(INCLUDEDIR) -c -o $@ $<
+

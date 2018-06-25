@@ -1,0 +1,20 @@
+
+NRSS Producer: Opening Log/Producer_Run7 
+
+NRSS Producer: Configuring SharedBuffer 
+configSharedBuffer: Configuring the shared buffer for Producer with key 5915
+circBuffer created (size 3000017) 
+circBuffer configured for Producer: key 5915/0x171B
+ATSTARTUP   --- DCOffset ch 0) 0 (0x0)	 TriggerLevel) 0 (0x0)
+ATSTARTUP   --- DCOffset ch 1) 0 (0x0)	 TriggerLevel) 0 (0x0)
+Group trig reg 0 (0x103c) = 0x7f64
+ATSTARTUP   --- DCOffset ch 2) 0 (0x0)	 TriggerLevel) 0 (0x0)
+ATSTARTUP   --- DCOffset ch 3) 0 (0x0)	 TriggerLevel) 0 (0x0)
+Group trig reg 1 (0x113c) = 0x7f64
+ATSTARTUP   --- DCOffset ch 4) 0 (0x0)	 TriggerLevel) 0 (0x0)
+ATSTARTUP   --- DCOffset ch 5) 0 (0x0)	 TriggerLevel) 0 (0x0)
+Group trig reg 2 (0x123c) = 0x7f64
+ATSTARTUP   --- DCOffset ch 6) 0 (0x0)	 TriggerLevel) 0 (0x0)
+ATSTARTUP   --- DCOffset ch 7) 0 (0x0)	 TriggerLevel) 0 (0x0)
+Group trig reg 3 (0x133c) = 0x7f64
+*** NRSS Producer: ERROR opening DT5743 device -1 

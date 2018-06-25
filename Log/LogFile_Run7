@@ -1,0 +1,25 @@
+
+RunControl: WriteLogHeader 
+Opening Log/LogFile_Run7  
+Date and Time: Tue Jun 19 10:07:27 2018
+ 
+Selected Recipe: NRSS_only-external-v22 
+Device Selection for this run: 
+  NRSS
+
+Run Configuration: 
+  Run Lenght 3600 s 
+  Software Trigger is ON (Rate 10 Hz) 
+RunControl: starting NRSS Producer for Run 7
+
+(RunControl:111241): Gtk-CRITICAL **: IA__gtk_spin_button_get_value_as_int: assertion 'GTK_IS_SPIN_BUTTON (spin_button)' failed
+
+(RunControl:111241): Gtk-CRITICAL **: IA__gtk_spin_button_get_value_as_int: assertion 'GTK_IS_SPIN_BUTTON (spin_button)' failed
+
+(RunControl:111241): Gtk-CRITICAL **: IA__gtk_spin_button_get_value_as_int: assertion 'GTK_IS_SPIN_BUTTON (spin_button)' failed
+
+NRSS Producer: Configuring DAQSharedMemory 
+configDaqSharedMemory: Configuring the shared memory for Producer 
+DaqSharedMemory created (size 344) 
+DaqSharedMemory attached to Producer address space: key 9515/0x252B
+19-06-2018  10:07:32 RunControl: Stopping the acquisition for Run7 

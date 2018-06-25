@@ -1,0 +1,6 @@
+#!/bin/csh
+
+set procR = `ps -U RunControlUser | grep RunControl | grep -v "00:00:00" | awk ' {print $1} ' `
+foreach proc ($procR)
+  echo "*** WARNING RunControl is already running PID: " $proc
+end

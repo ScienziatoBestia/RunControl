@@ -1,0 +1,15 @@
+
+RunControl: WriteLogHeader 
+Opening Log/LogFile_Run26  
+Date and Time: Tue Jun 19 17:05:30 2018
+ 
+Selected Recipe: NRSS_only-external-v22 
+Device Selection for this run: 
+  NRSS
+
+Run Configuration: 
+  Run Lenght 100 events 
+  Software Trigger is ON (Rate 10 Hz) 
+19-06-2018  17:05:32 RunControl: Stopping the acquisition for Run26 
+Deleting DaqSharedMemory key: 9515/0x252B
+DaqSharedMemory deleted 

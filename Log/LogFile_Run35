@@ -1,0 +1,15 @@
+
+RunControl: WriteLogHeader 
+Opening Log/LogFile_Run35  
+Date and Time: Wed Jun 20 15:43:30 2018
+ 
+Selected Recipe: nrss_atct_Test-v1 
+Device Selection for this run: 
+  NRSS
+
+Run Configuration: 
+  Run Lenght 100 events 
+  Software Trigger is ON (Rate 10 Hz) 
+20-06-2018  15:43:35 RunControl: Stopping the acquisition for Run35 
+Deleting DaqSharedMemory key: 9515/0x252B
+DaqSharedMemory deleted 

@@ -1,0 +1,515 @@
+NRSS Producer: Opening Log/Producer_Run32 
+
+NRSS Producer: Starting new run 32
+NRSS Producer: pBufferSizeDT5743 0, nloop 1
+DT5743: numEvents 1
+encBufferSize = 16416 | 1st row = 0xa0001008 
+NRSS Producer: pBufferSizeDT5743 17424, nloop 1
+NRSS Producer: pDaqSharedMemory->nrssStatus 0
+writeCircularBuffer: tail 1659228    head 1659228   bufferSize 4   dist 3000017 
+writeCircularBuffer: one step => bufferSize 4 - head before writing 1659228 
+writeCircularBuffer: one step => head after writing 1659232 
+writeCircularBuffer: tail 1659228    head 1659232   bufferSize 4   dist 3000013 
+writeCircularBuffer: one step => bufferSize 4 - head before writing 1659232 
+writeCircularBuffer: one step => head after writing 1659236 
+writeCircularBuffer: tail 1659228    head 1659236   bufferSize 4   dist 3000009 
+writeCircularBuffer: one step => bufferSize 4 - head before writing 1659236 
+writeCircularBuffer: one step => head after writing 1659240 
+writeCircularBuffer: tail 1659228    head 1659240   bufferSize 16416   dist 3000005 
+writeCircularBuffer: one step => bufferSize 16416 - head before writing 1659240 
+writeCircularBuffer: one step => head after writing 1675656 
+=============== DT5743 time analysis ============
+Decoding: 0.000803 
+Encoding: 0.000992 
+Producer final: 0.001076 
+=============== DT5743 time analysis ============
+NRSS Producer: Event number 2  nrssStatus 0
+NRSS Producer: pBufferSizeDT5743 0, nloop 1
+DT5743: numEvents 1
+encBufferSize = 16416 | 1st row = 0xa0001008 
+NRSS Producer: pBufferSizeDT5743 17424, nloop 1
+NRSS Producer: pDaqSharedMemory->nrssStatus 0
+writeCircularBuffer: tail 1675656    head 1675656   bufferSize 4   dist 3000017 
+writeCircularBuffer: one step => bufferSize 4 - head before writing 1675656 
+writeCircularBuffer: one step => head after writing 1675660 
+writeCircularBuffer: tail 1675656    head 1675660   bufferSize 4   dist 3000013 
+writeCircularBuffer: one step => bufferSize 4 - head before writing 1675660 
+writeCircularBuffer: one step => head after writing 1675664 
+writeCircularBuffer: tail 1675656    head 1675664   bufferSize 4   dist 3000009 
+writeCircularBuffer: one step => bufferSize 4 - head before writing 1675664 
+writeCircularBuffer: one step => head after writing 1675668 
+writeCircularBuffer: tail 1675656    head 1675668   bufferSize 16416   dist 3000005 
+writeCircularBuffer: one step => bufferSize 16416 - head before writing 1675668 
+writeCircularBuffer: one step => head after writing 1692084 
+=============== DT5743 time analysis ============
+Decoding: 0.000409 
+Encoding: 0.000519 
+Producer final: 0.000578 
+=============== DT5743 time analysis ============
+NRSS Producer: Event number 3  nrssStatus 0
+NRSS Producer: pBufferSizeDT5743 0, nloop 1
+DT5743: numEvents 1
+encBufferSize = 16416 | 1st row = 0xa0001008 
+NRSS Producer: pBufferSizeDT5743 17424, nloop 1
+NRSS Producer: pDaqSharedMemory->nrssStatus 0
+writeCircularBuffer: tail 1692084    head 1692084   bufferSize 4   dist 3000017 
+writeCircularBuffer: one step => bufferSize 4 - head before writing 1692084 
+writeCircularBuffer: one step => head after writing 1692088 
+writeCircularBuffer: tail 1692084    head 1692088   bufferSize 4   dist 3000013 
+writeCircularBuffer: one step => bufferSize 4 - head before writing 1692088 
+writeCircularBuffer: one step => head after writing 1692092 
+writeCircularBuffer: tail 1692084    head 1692092   bufferSize 4   dist 3000009 
+writeCircularBuffer: one step => bufferSize 4 - head before writing 1692092 
+writeCircularBuffer: one step => head after writing 1692096 
+writeCircularBuffer: tail 1692084    head 1692096   bufferSize 16416   dist 3000005 
+writeCircularBuffer: one step => bufferSize 16416 - head before writing 1692096 
+writeCircularBuffer: one step => head after writing 1708512 
+=============== DT5743 time analysis ============
+Decoding: 0.000392 
+Encoding: 0.000501 
+Producer final: 0.000559 
+=============== DT5743 time analysis ============
+NRSS Producer: Event number 4  nrssStatus 0
+NRSS Producer: pBufferSizeDT5743 0, nloop 1
+DT5743: numEvents 1
+encBufferSize = 16416 | 1st row = 0xa0001008 
+NRSS Producer: pBufferSizeDT5743 17424, nloop 1
+NRSS Producer: pDaqSharedMemory->nrssStatus 0
+writeCircularBuffer: tail 1708512    head 1708512   bufferSize 4   dist 3000017 
+writeCircularBuffer: one step => bufferSize 4 - head before writing 1708512 
+writeCircularBuffer: one step => head after writing 1708516 
+writeCircularBuffer: tail 1708512    head 1708516   bufferSize 4   dist 3000013 
+writeCircularBuffer: one step => bufferSize 4 - head before writing 1708516 
+writeCircularBuffer: one step => head after writing 1708520 
+writeCircularBuffer: tail 1708512    head 1708520   bufferSize 4   dist 3000009 
+writeCircularBuffer: one step => bufferSize 4 - head before writing 1708520 
+writeCircularBuffer: one step => head after writing 1708524 
+writeCircularBuffer: tail 1708512    head 1708524   bufferSize 16416   dist 3000005 
+writeCircularBuffer: one step => bufferSize 16416 - head before writing 1708524 
+writeCircularBuffer: one step => head after writing 1724940 
+=============== DT5743 time analysis ============
+Decoding: 0.000445 
+Encoding: 0.000552 
+Producer final: 0.000618 
+=============== DT5743 time analysis ============
+NRSS Producer: Event number 5  nrssStatus 0
+NRSS Producer: pBufferSizeDT5743 0, nloop 1
+DT5743: numEvents 1
+encBufferSize = 16416 | 1st row = 0xa0001008 
+NRSS Producer: pBufferSizeDT5743 17424, nloop 1
+NRSS Producer: pDaqSharedMemory->nrssStatus 0
+writeCircularBuffer: tail 1724940    head 1724940   bufferSize 4   dist 3000017 
+writeCircularBuffer: one step => bufferSize 4 - head before writing 1724940 
+writeCircularBuffer: one step => head after writing 1724944 
+writeCircularBuffer: tail 1724940    head 1724944   bufferSize 4   dist 3000013 
+writeCircularBuffer: one step => bufferSize 4 - head before writing 1724944 
+writeCircularBuffer: one step => head after writing 1724948 
+writeCircularBuffer: tail 1724940    head 1724948   bufferSize 4   dist 3000009 
+writeCircularBuffer: one step => bufferSize 4 - head before writing 1724948 
+writeCircularBuffer: one step => head after writing 1724952 
+writeCircularBuffer: tail 1724940    head 1724952   bufferSize 16416   dist 3000005 
+writeCircularBuffer: one step => bufferSize 16416 - head before writing 1724952 
+writeCircularBuffer: one step => head after writing 1741368 
+=============== DT5743 time analysis ============
+Decoding: 0.000694 
+Encoding: 0.000862 
+Producer final: 0.000936 
+=============== DT5743 time analysis ============
+NRSS Producer: Event number 6  nrssStatus 0
+NRSS Producer: pBufferSizeDT5743 0, nloop 1
+DT5743: numEvents 1
+encBufferSize = 16416 | 1st row = 0xa0001008 
+NRSS Producer: pBufferSizeDT5743 17424, nloop 1
+NRSS Producer: pDaqSharedMemory->nrssStatus 0
+writeCircularBuffer: tail 1741368    head 1741368   bufferSize 4   dist 3000017 
+writeCircularBuffer: one step => bufferSize 4 - head before writing 1741368 
+writeCircularBuffer: one step => head after writing 1741372 
+writeCircularBuffer: tail 1741368    head 1741372   bufferSize 4   dist 3000013 
+writeCircularBuffer: one step => bufferSize 4 - head before writing 1741372 
+writeCircularBuffer: one step => head after writing 1741376 
+writeCircularBuffer: tail 1741368    head 1741376   bufferSize 4   dist 3000009 
+writeCircularBuffer: one step => bufferSize 4 - head before writing 1741376 
+writeCircularBuffer: one step => head after writing 1741380 
+writeCircularBuffer: tail 1741368    head 1741380   bufferSize 16416   dist 3000005 
+writeCircularBuffer: one step => bufferSize 16416 - head before writing 1741380 
+writeCircularBuffer: one step => head after writing 1757796 
+=============== DT5743 time analysis ============
+Decoding: 0.000708 
+Encoding: 0.000876 
+Producer final: 0.000951 
+=============== DT5743 time analysis ============
+NRSS Producer: Event number 7  nrssStatus 0
+NRSS Producer: pBufferSizeDT5743 0, nloop 1
+DT5743: numEvents 1
+encBufferSize = 16416 | 1st row = 0xa0001008 
+NRSS Producer: pBufferSizeDT5743 17424, nloop 1
+NRSS Producer: pDaqSharedMemory->nrssStatus 0
+writeCircularBuffer: tail 1757796    head 1757796   bufferSize 4   dist 3000017 
+writeCircularBuffer: one step => bufferSize 4 - head before writing 1757796 
+writeCircularBuffer: one step => head after writing 1757800 
+writeCircularBuffer: tail 1757796    head 1757800   bufferSize 4   dist 3000013 
+writeCircularBuffer: one step => bufferSize 4 - head before writing 1757800 
+writeCircularBuffer: one step => head after writing 1757804 
+writeCircularBuffer: tail 1757796    head 1757804   bufferSize 4   dist 3000009 
+writeCircularBuffer: one step => bufferSize 4 - head before writing 1757804 
+writeCircularBuffer: one step => head after writing 1757808 
+writeCircularBuffer: tail 1757796    head 1757808   bufferSize 16416   dist 3000005 
+writeCircularBuffer: one step => bufferSize 16416 - head before writing 1757808 
+writeCircularBuffer: one step => head after writing 1774224 
+=============== DT5743 time analysis ============
+Decoding: 0.000682 
+Encoding: 0.000853 
+Producer final: 0.000943 
+=============== DT5743 time analysis ============
+NRSS Producer: Event number 8  nrssStatus 0
+NRSS Producer: pBufferSizeDT5743 0, nloop 1
+DT5743: numEvents 1
+encBufferSize = 16416 | 1st row = 0xa0001008 
+NRSS Producer: pBufferSizeDT5743 17424, nloop 1
+NRSS Producer: pDaqSharedMemory->nrssStatus 0
+writeCircularBuffer: tail 1774224    head 1774224   bufferSize 4   dist 3000017 
+writeCircularBuffer: one step => bufferSize 4 - head before writing 1774224 
+writeCircularBuffer: one step => head after writing 1774228 
+writeCircularBuffer: tail 1774224    head 1774228   bufferSize 4   dist 3000013 
+writeCircularBuffer: one step => bufferSize 4 - head before writing 1774228 
+writeCircularBuffer: one step => head after writing 1774232 
+writeCircularBuffer: tail 1774224    head 1774232   bufferSize 4   dist 3000009 
+writeCircularBuffer: one step => bufferSize 4 - head before writing 1774232 
+writeCircularBuffer: one step => head after writing 1774236 
+writeCircularBuffer: tail 1774224    head 1774236   bufferSize 16416   dist 3000005 
+writeCircularBuffer: one step => bufferSize 16416 - head before writing 1774236 
+writeCircularBuffer: one step => head after writing 1790652 
+=============== DT5743 time analysis ============
+Decoding: 0.000787 
+Encoding: 0.000979 
+Producer final: 0.001062 
+=============== DT5743 time analysis ============
+NRSS Producer: Event number 9  nrssStatus 0
+NRSS Producer: pBufferSizeDT5743 0, nloop 1
+DT5743: numEvents 1
+encBufferSize = 16416 | 1st row = 0xa0001008 
+NRSS Producer: pBufferSizeDT5743 17424, nloop 1
+NRSS Producer: pDaqSharedMemory->nrssStatus 0
+writeCircularBuffer: tail 1790652    head 1790652   bufferSize 4   dist 3000017 
+writeCircularBuffer: one step => bufferSize 4 - head before writing 1790652 
+writeCircularBuffer: one step => head after writing 1790656 
+writeCircularBuffer: tail 1790652    head 1790656   bufferSize 4   dist 3000013 
+writeCircularBuffer: one step => bufferSize 4 - head before writing 1790656 
+writeCircularBuffer: one step => head after writing 1790660 
+writeCircularBuffer: tail 1790652    head 1790660   bufferSize 4   dist 3000009 
+writeCircularBuffer: one step => bufferSize 4 - head before writing 1790660 
+writeCircularBuffer: one step => head after writing 1790664 
+writeCircularBuffer: tail 1790652    head 1790664   bufferSize 16416   dist 3000005 
+writeCircularBuffer: one step => bufferSize 16416 - head before writing 1790664 
+writeCircularBuffer: one step => head after writing 1807080 
+=============== DT5743 time analysis ============
+Decoding: 0.000837 
+Encoding: 0.001046 
+Producer final: 0.001141 
+=============== DT5743 time analysis ============
+NRSS Producer: Event number 10  nrssStatus 0
+NRSS Producer: pBufferSizeDT5743 0, nloop 1
+DT5743: numEvents 1
+encBufferSize = 16416 | 1st row = 0xa0001008 
+NRSS Producer: pBufferSizeDT5743 17424, nloop 1
+NRSS Producer: pDaqSharedMemory->nrssStatus 0
+writeCircularBuffer: tail 1807080    head 1807080   bufferSize 4   dist 3000017 
+writeCircularBuffer: one step => bufferSize 4 - head before writing 1807080 
+writeCircularBuffer: one step => head after writing 1807084 
+writeCircularBuffer: tail 1807080    head 1807084   bufferSize 4   dist 3000013 
+writeCircularBuffer: one step => bufferSize 4 - head before writing 1807084 
+writeCircularBuffer: one step => head after writing 1807088 
+writeCircularBuffer: tail 1807080    head 1807088   bufferSize 4   dist 3000009 
+writeCircularBuffer: one step => bufferSize 4 - head before writing 1807088 
+writeCircularBuffer: one step => head after writing 1807092 
+writeCircularBuffer: tail 1807080    head 1807092   bufferSize 16416   dist 3000005 
+writeCircularBuffer: one step => bufferSize 16416 - head before writing 1807092 
+writeCircularBuffer: one step => head after writing 1823508 
+=============== DT5743 time analysis ============
+Decoding: 0.000638 
+Encoding: 0.000788 
+Producer final: 0.001388 
+=============== DT5743 time analysis ============
+NRSS Producer: Event number 11  nrssStatus 0
+NRSS Producer: pBufferSizeDT5743 0, nloop 1
+DT5743: numEvents 1
+encBufferSize = 16416 | 1st row = 0xa0001008 
+NRSS Producer: pBufferSizeDT5743 17424, nloop 1
+NRSS Producer: pDaqSharedMemory->nrssStatus 0
+writeCircularBuffer: tail 1823508    head 1823508   bufferSize 4   dist 3000017 
+writeCircularBuffer: one step => bufferSize 4 - head before writing 1823508 
+writeCircularBuffer: one step => head after writing 1823512 
+writeCircularBuffer: tail 1823508    head 1823512   bufferSize 4   dist 3000013 
+writeCircularBuffer: one step => bufferSize 4 - head before writing 1823512 
+writeCircularBuffer: one step => head after writing 1823516 
+writeCircularBuffer: tail 1823508    head 1823516   bufferSize 4   dist 3000009 
+writeCircularBuffer: one step => bufferSize 4 - head before writing 1823516 
+writeCircularBuffer: one step => head after writing 1823520 
+writeCircularBuffer: tail 1823508    head 1823520   bufferSize 16416   dist 3000005 
+writeCircularBuffer: one step => bufferSize 16416 - head before writing 1823520 
+writeCircularBuffer: one step => head after writing 1839936 
+=============== DT5743 time analysis ============
+Decoding: 0.000646 
+Encoding: 0.000823 
+Producer final: 0.000915 
+=============== DT5743 time analysis ============
+NRSS Producer: Event number 12  nrssStatus 0
+NRSS Producer: pBufferSizeDT5743 0, nloop 1
+DT5743: numEvents 1
+encBufferSize = 16416 | 1st row = 0xa0001008 
+NRSS Producer: pBufferSizeDT5743 17424, nloop 1
+NRSS Producer: pDaqSharedMemory->nrssStatus 0
+writeCircularBuffer: tail 1839936    head 1839936   bufferSize 4   dist 3000017 
+writeCircularBuffer: one step => bufferSize 4 - head before writing 1839936 
+writeCircularBuffer: one step => head after writing 1839940 
+writeCircularBuffer: tail 1839936    head 1839940   bufferSize 4   dist 3000013 
+writeCircularBuffer: one step => bufferSize 4 - head before writing 1839940 
+writeCircularBuffer: one step => head after writing 1839944 
+writeCircularBuffer: tail 1839936    head 1839944   bufferSize 4   dist 3000009 
+writeCircularBuffer: one step => bufferSize 4 - head before writing 1839944 
+writeCircularBuffer: one step => head after writing 1839948 
+writeCircularBuffer: tail 1839936    head 1839948   bufferSize 16416   dist 3000005 
+writeCircularBuffer: one step => bufferSize 16416 - head before writing 1839948 
+writeCircularBuffer: one step => head after writing 1856364 
+=============== DT5743 time analysis ============
+Decoding: 0.000799 
+Encoding: 0.000991 
+Producer final: 0.001101 
+=============== DT5743 time analysis ============
+NRSS Producer: Event number 13  nrssStatus 0
+NRSS Producer: pBufferSizeDT5743 0, nloop 1
+DT5743: numEvents 1
+encBufferSize = 16416 | 1st row = 0xa0001008 
+NRSS Producer: pBufferSizeDT5743 17424, nloop 1
+NRSS Producer: pDaqSharedMemory->nrssStatus 0
+writeCircularBuffer: tail 1856364    head 1856364   bufferSize 4   dist 3000017 
+writeCircularBuffer: one step => bufferSize 4 - head before writing 1856364 
+writeCircularBuffer: one step => head after writing 1856368 
+writeCircularBuffer: tail 1856364    head 1856368   bufferSize 4   dist 3000013 
+writeCircularBuffer: one step => bufferSize 4 - head before writing 1856368 
+writeCircularBuffer: one step => head after writing 1856372 
+writeCircularBuffer: tail 1856364    head 1856372   bufferSize 4   dist 3000009 
+writeCircularBuffer: one step => bufferSize 4 - head before writing 1856372 
+writeCircularBuffer: one step => head after writing 1856376 
+writeCircularBuffer: tail 1856364    head 1856376   bufferSize 16416   dist 3000005 
+writeCircularBuffer: one step => bufferSize 16416 - head before writing 1856376 
+writeCircularBuffer: one step => head after writing 1872792 
+=============== DT5743 time analysis ============
+Decoding: 0.000744 
+Encoding: 0.000920 
+Producer final: 0.001012 
+=============== DT5743 time analysis ============
+NRSS Producer: Event number 14  nrssStatus 0
+NRSS Producer: pBufferSizeDT5743 0, nloop 1
+DT5743: numEvents 1
+encBufferSize = 16416 | 1st row = 0xa0001008 
+NRSS Producer: pBufferSizeDT5743 17424, nloop 1
+NRSS Producer: pDaqSharedMemory->nrssStatus 0
+writeCircularBuffer: tail 1872792    head 1872792   bufferSize 4   dist 3000017 
+writeCircularBuffer: one step => bufferSize 4 - head before writing 1872792 
+writeCircularBuffer: one step => head after writing 1872796 
+writeCircularBuffer: tail 1872792    head 1872796   bufferSize 4   dist 3000013 
+writeCircularBuffer: one step => bufferSize 4 - head before writing 1872796 
+writeCircularBuffer: one step => head after writing 1872800 
+writeCircularBuffer: tail 1872792    head 1872800   bufferSize 4   dist 3000009 
+writeCircularBuffer: one step => bufferSize 4 - head before writing 1872800 
+writeCircularBuffer: one step => head after writing 1872804 
+writeCircularBuffer: tail 1872792    head 1872804   bufferSize 16416   dist 3000005 
+writeCircularBuffer: one step => bufferSize 16416 - head before writing 1872804 
+writeCircularBuffer: one step => head after writing 1889220 
+=============== DT5743 time analysis ============
+Decoding: 0.000695 
+Encoding: 0.000856 
+Producer final: 0.000930 
+=============== DT5743 time analysis ============
+NRSS Producer: Event number 15  nrssStatus 0
+NRSS Producer: pBufferSizeDT5743 0, nloop 1
+DT5743: numEvents 1
+encBufferSize = 16416 | 1st row = 0xa0001008 
+NRSS Producer: pBufferSizeDT5743 17424, nloop 1
+NRSS Producer: pDaqSharedMemory->nrssStatus 0
+writeCircularBuffer: tail 1889220    head 1889220   bufferSize 4   dist 3000017 
+writeCircularBuffer: one step => bufferSize 4 - head before writing 1889220 
+writeCircularBuffer: one step => head after writing 1889224 
+writeCircularBuffer: tail 1889220    head 1889224   bufferSize 4   dist 3000013 
+writeCircularBuffer: one step => bufferSize 4 - head before writing 1889224 
+writeCircularBuffer: one step => head after writing 1889228 
+writeCircularBuffer: tail 1889220    head 1889228   bufferSize 4   dist 3000009 
+writeCircularBuffer: one step => bufferSize 4 - head before writing 1889228 
+writeCircularBuffer: one step => head after writing 1889232 
+writeCircularBuffer: tail 1889220    head 1889232   bufferSize 16416   dist 3000005 
+writeCircularBuffer: one step => bufferSize 16416 - head before writing 1889232 
+writeCircularBuffer: one step => head after writing 1905648 
+=============== DT5743 time analysis ============
+Decoding: 0.000785 
+Encoding: 0.000975 
+Producer final: 0.001054 
+=============== DT5743 time analysis ============
+NRSS Producer: Event number 16  nrssStatus 0
+NRSS Producer: pBufferSizeDT5743 0, nloop 1
+DT5743: numEvents 1
+encBufferSize = 16416 | 1st row = 0xa0001008 
+NRSS Producer: pBufferSizeDT5743 17424, nloop 1
+NRSS Producer: pDaqSharedMemory->nrssStatus 0
+writeCircularBuffer: tail 1905648    head 1905648   bufferSize 4   dist 3000017 
+writeCircularBuffer: one step => bufferSize 4 - head before writing 1905648 
+writeCircularBuffer: one step => head after writing 1905652 
+writeCircularBuffer: tail 1905648    head 1905652   bufferSize 4   dist 3000013 
+writeCircularBuffer: one step => bufferSize 4 - head before writing 1905652 
+writeCircularBuffer: one step => head after writing 1905656 
+writeCircularBuffer: tail 1905648    head 1905656   bufferSize 4   dist 3000009 
+writeCircularBuffer: one step => bufferSize 4 - head before writing 1905656 
+writeCircularBuffer: one step => head after writing 1905660 
+writeCircularBuffer: tail 1905648    head 1905660   bufferSize 16416   dist 3000005 
+writeCircularBuffer: one step => bufferSize 16416 - head before writing 1905660 
+writeCircularBuffer: one step => head after writing 1922076 
+=============== DT5743 time analysis ============
+Decoding: 0.000787 
+Encoding: 0.000976 
+Producer final: 0.001089 
+=============== DT5743 time analysis ============
+NRSS Producer: Event number 17  nrssStatus 0
+NRSS Producer: pBufferSizeDT5743 0, nloop 1
+DT5743: numEvents 1
+encBufferSize = 16416 | 1st row = 0xa0001008 
+NRSS Producer: pBufferSizeDT5743 17424, nloop 1
+NRSS Producer: pDaqSharedMemory->nrssStatus 0
+writeCircularBuffer: tail 1922076    head 1922076   bufferSize 4   dist 3000017 
+writeCircularBuffer: one step => bufferSize 4 - head before writing 1922076 
+writeCircularBuffer: one step => head after writing 1922080 
+writeCircularBuffer: tail 1922076    head 1922080   bufferSize 4   dist 3000013 
+writeCircularBuffer: one step => bufferSize 4 - head before writing 1922080 
+writeCircularBuffer: one step => head after writing 1922084 
+writeCircularBuffer: tail 1922076    head 1922084   bufferSize 4   dist 3000009 
+writeCircularBuffer: one step => bufferSize 4 - head before writing 1922084 
+writeCircularBuffer: one step => head after writing 1922088 
+writeCircularBuffer: tail 1922076    head 1922088   bufferSize 16416   dist 3000005 
+writeCircularBuffer: one step => bufferSize 16416 - head before writing 1922088 
+writeCircularBuffer: one step => head after writing 1938504 
+=============== DT5743 time analysis ============
+Decoding: 0.000727 
+Encoding: 0.000901 
+Producer final: 0.000978 
+=============== DT5743 time analysis ============
+NRSS Producer: Event number 18  nrssStatus 0
+NRSS Producer: pBufferSizeDT5743 0, nloop 1
+DT5743: numEvents 1
+encBufferSize = 16416 | 1st row = 0xa0001008 
+NRSS Producer: pBufferSizeDT5743 17424, nloop 1
+NRSS Producer: pDaqSharedMemory->nrssStatus 0
+writeCircularBuffer: tail 1938504    head 1938504   bufferSize 4   dist 3000017 
+writeCircularBuffer: one step => bufferSize 4 - head before writing 1938504 
+writeCircularBuffer: one step => head after writing 1938508 
+writeCircularBuffer: tail 1938504    head 1938508   bufferSize 4   dist 3000013 
+writeCircularBuffer: one step => bufferSize 4 - head before writing 1938508 
+writeCircularBuffer: one step => head after writing 1938512 
+writeCircularBuffer: tail 1938504    head 1938512   bufferSize 4   dist 3000009 
+writeCircularBuffer: one step => bufferSize 4 - head before writing 1938512 
+writeCircularBuffer: one step => head after writing 1938516 
+writeCircularBuffer: tail 1938504    head 1938516   bufferSize 16416   dist 3000005 
+writeCircularBuffer: one step => bufferSize 16416 - head before writing 1938516 
+writeCircularBuffer: one step => head after writing 1954932 
+=============== DT5743 time analysis ============
+Decoding: 0.000676 
+Encoding: 0.000850 
+Producer final: 0.000921 
+=============== DT5743 time analysis ============
+NRSS Producer: Event number 19  nrssStatus 0
+NRSS Producer: pBufferSizeDT5743 0, nloop 1
+DT5743: numEvents 1
+encBufferSize = 16416 | 1st row = 0xa0001008 
+NRSS Producer: pBufferSizeDT5743 17424, nloop 1
+NRSS Producer: pDaqSharedMemory->nrssStatus 0
+writeCircularBuffer: tail 1954932    head 1954932   bufferSize 4   dist 3000017 
+writeCircularBuffer: one step => bufferSize 4 - head before writing 1954932 
+writeCircularBuffer: one step => head after writing 1954936 
+writeCircularBuffer: tail 1954932    head 1954936   bufferSize 4   dist 3000013 
+writeCircularBuffer: one step => bufferSize 4 - head before writing 1954936 
+writeCircularBuffer: one step => head after writing 1954940 
+writeCircularBuffer: tail 1954932    head 1954940   bufferSize 4   dist 3000009 
+writeCircularBuffer: one step => bufferSize 4 - head before writing 1954940 
+writeCircularBuffer: one step => head after writing 1954944 
+writeCircularBuffer: tail 1954932    head 1954944   bufferSize 16416   dist 3000005 
+writeCircularBuffer: one step => bufferSize 16416 - head before writing 1954944 
+writeCircularBuffer: one step => head after writing 1971360 
+=============== DT5743 time analysis ============
+Decoding: 0.000643 
+Encoding: 0.000795 
+Producer final: 0.000866 
+=============== DT5743 time analysis ============
+NRSS Producer: Event number 20  nrssStatus 0
+NRSS Producer: pBufferSizeDT5743 0, nloop 1
+DT5743: numEvents 1
+encBufferSize = 16416 | 1st row = 0xa0001008 
+NRSS Producer: pBufferSizeDT5743 17424, nloop 1
+NRSS Producer: pDaqSharedMemory->nrssStatus 0
+writeCircularBuffer: tail 1971360    head 1971360   bufferSize 4   dist 3000017 
+writeCircularBuffer: one step => bufferSize 4 - head before writing 1971360 
+writeCircularBuffer: one step => head after writing 1971364 
+writeCircularBuffer: tail 1971360    head 1971364   bufferSize 4   dist 3000013 
+writeCircularBuffer: one step => bufferSize 4 - head before writing 1971364 
+writeCircularBuffer: one step => head after writing 1971368 
+writeCircularBuffer: tail 1971360    head 1971368   bufferSize 4   dist 3000009 
+writeCircularBuffer: one step => bufferSize 4 - head before writing 1971368 
+writeCircularBuffer: one step => head after writing 1971372 
+writeCircularBuffer: tail 1971360    head 1971372   bufferSize 16416   dist 3000005 
+writeCircularBuffer: one step => bufferSize 16416 - head before writing 1971372 
+writeCircularBuffer: one step => head after writing 1987788 
+=============== DT5743 time analysis ============
+Decoding: 0.000826 
+Encoding: 0.001035 
+Producer final: 0.001149 
+=============== DT5743 time analysis ============
+NRSS Producer: Event number 21  nrssStatus 0
+NRSS Producer: pBufferSizeDT5743 0, nloop 1
+DT5743: numEvents 1
+encBufferSize = 16416 | 1st row = 0xa0001008 
+NRSS Producer: pBufferSizeDT5743 17424, nloop 1
+NRSS Producer: pDaqSharedMemory->nrssStatus 0
+writeCircularBuffer: tail 1987788    head 1987788   bufferSize 4   dist 3000017 
+writeCircularBuffer: one step => bufferSize 4 - head before writing 1987788 
+writeCircularBuffer: one step => head after writing 1987792 
+writeCircularBuffer: tail 1987788    head 1987792   bufferSize 4   dist 3000013 
+writeCircularBuffer: one step => bufferSize 4 - head before writing 1987792 
+writeCircularBuffer: one step => head after writing 1987796 
+writeCircularBuffer: tail 1987788    head 1987796   bufferSize 4   dist 3000009 
+writeCircularBuffer: one step => bufferSize 4 - head before writing 1987796 
+writeCircularBuffer: one step => head after writing 1987800 
+writeCircularBuffer: tail 1987788    head 1987800   bufferSize 16416   dist 3000005 
+writeCircularBuffer: one step => bufferSize 16416 - head before writing 1987800 
+writeCircularBuffer: one step => head after writing 2004216 
+=============== DT5743 time analysis ============
+Decoding: 0.000690 
+Encoding: 0.000859 
+Producer final: 0.000937 
+=============== DT5743 time analysis ============
+NRSS Producer: Event number 22  nrssStatus 0
+NRSS Producer: pBufferSizeDT5743 0, nloop 1
+DT5743: numEvents 0
+*** NRSS Producer: WRONG DT5743 data 0
+encBufferSize = 16416 | 1st row = 0xa0001008 
+NRSS Producer: pBufferSizeDT5743 0, nloop 1
+NRSS Producer: pDaqSharedMemory->nrssStatus 0
+writeCircularBuffer: tail 2004216    head 2004216   bufferSize 4   dist 3000017 
+writeCircularBuffer: one step => bufferSize 4 - head before writing 2004216 
+writeCircularBuffer: one step => head after writing 2004220 
+writeCircularBuffer: tail 2004216    head 2004220   bufferSize 4   dist 3000013 
+writeCircularBuffer: one step => bufferSize 4 - head before writing 2004220 
+writeCircularBuffer: one step => head after writing 2004224 
+writeCircularBuffer: tail 2004216    head 2004224   bufferSize 4   dist 3000009 
+writeCircularBuffer: one step => bufferSize 4 - head before writing 2004224 
+writeCircularBuffer: one step => head after writing 2004228 
+writeCircularBuffer: tail 2004216    head 2004228   bufferSize 16416   dist 3000005 
+writeCircularBuffer: one step => bufferSize 16416 - head before writing 2004228 
+writeCircularBuffer: one step => head after writing 2020644 
+=============== DT5743 time analysis ============
+Decoding: 0.000759 
+Encoding: 0.000922 
+Producer final: 0.000975 
+=============== DT5743 time analysis ============
+NRSS Producer: Event number 23  nrssStatus 0
+NRSS Deleting the Producer shared buffer 
+Deleting the  SharedBuffer key: 5915 / 0x171B
+circBuffer deleted 
+NRSS Detaching the Producer shared memory 
+Deleting DaqSharedMemory key: 9515/0x252B

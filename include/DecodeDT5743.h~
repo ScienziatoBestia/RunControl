@@ -1,0 +1,181 @@
+/************************************
+ * *
+ * *  Routine to decode MODIFIED DT5743 events  
+ * *  no connection to Digitizer needed
+ * * 
+ * *************************************/
+
+#ifndef __DECODEDT5743__
+#define __DECODEDT5743__
+
+#define MAX_GR 4
+#define HEA_SZ 4 
+
+#include <CAENDigitizer.h>
+#include "CAENDigitizerType.h"
+#include <stdlib.h>
+#include <stdio.h>
+#include <string.h>
+#include <iostream>
+#include <math.h>
+
+CAEN_DGTZ_ErrorCode CAENDGTZ_API CAEN_DGTZ_DecodeEventDT5743(char *data, void **Evt){
+
+CAEN_DGTZ_X743_EVENT_t *x5743Event;
+
+printf("Decoding data: \n");
+
+//total event size
+
+    printf("---> first word: 0x%x \n",*(uint32_t*)data & 0xFFFFFFFF); 
+
+    uint32_t size = *(uint32_t*)data & 0x0FFFFFFF;
+    printf("Event size : 0x%x %i \n",size, size);
+
+    x5743Event = (CAEN_DGTZ_X743_EVENT_t *) malloc(sizeof(CAEN_DGTZ_X743_EVENT_t));
+    if (x5743Event == NULL) return CAEN_DGTZ_InvalidEvent;
+    memset(x5743Event, 0, sizeof(CAEN_DGTZ_X743_EVENT_t));
+
+//active groups in the event 
+    //move to the second word
+    data += 4;
+    printf("---> second word: 0x%x \n",*(uint32_t*)data & 0xFFFFFFFF); 
+    uint32_t gr = *(uint32_t*)data & 0xF;
+
+    printf("Group word: 0x%x \n",gr);
+    uint32_t gr0 = gr & 0x1;
+    printf("gr0 = 0x%x \n", gr0);
+
+    //move to third word (event counter)
+    data +=4;
+    printf("---> third word: 0x%x \n",*(uint32_t*)data & 0xFFFFFFFF); 
+    uint32_t evtcnt = *(uint32_t*)data & 0x001FFFFF;
+    printf("Event counter : 0x%x %i \n",evtcnt, evtcnt);
+
+    //move to fourth word (event counter)
+    data +=4;
+    printf("---> fourth word: 0x%x \n",*(uint32_t*)data & 0xFFFFFFFF); 
+    uint32_t timetag = *(uint32_t*)data & 0xFFFFFFFF;
+    printf("timetag : 0x%x %i \n",timetag, timetag);
+
+    for (int i = 0; i < MAX_GR; ++i)
+    	x5743Event->GrPresent[i] = 0;
+
+    int grcounter = 0;
+    if(gr & 0x1) x5743Event->GrPresent[0] = 1;
+    if(gr & 0x2) x5743Event->GrPresent[1] = 1; 
+    if(gr & 0x4) x5743Event->GrPresent[2] = 1; 
+    if(gr & 0x8) x5743Event->GrPresent[3] = 1; 
+    grcounter = x5743Event->GrPresent[0] + x5743Event->GrPresent[1] + x5743Event->GrPresent[2] + x5743Event->GrPresent[3];
+
+    //LOOP OVER THE ACTIVE GROUPS
+    data +=4;	
+
+       	    //ReadPerGroup
+    	    for (int i=0; i< grcounter; i++) {
+    	    //if(x5743Event->GrPresent[i]==0) continue;
+             
+            //check record length group number and header tag
+            printf("==> group header line: 0x%x \n",*(uint32_t*)data);
+	    uint32_t ghead = *(uint32_t*)data & 0xFF000000;
+	    printf("==> group header (check : 0x%x) \n",ghead);
+            uint32_t RecordLength = (*(uint32_t*)data & 0x00FFFF00)>>8;
+            printf("==> rlength (check : 0x%x) \n",RecordLength);
+            int grnum = -1;
+            int grn = *(uint32_t*)data & 0xF;
+		if(grn == 1)      grnum = 0;
+		else if(grn == 2) grnum = 1;
+		else if(grn == 4) grnum = 2;
+		else if(grn == 8) grnum = 3;
+
+	    printf("==> group number %i has %u entries\n",grnum,RecordLength);
+            
+
+    	    CAEN_DGTZ_X743_GROUP_t *x5743Group;
+	    x5743Group = (CAEN_DGTZ_X743_GROUP_t *) malloc(sizeof(CAEN_DGTZ_X743_GROUP_t));
+  	    if (x5743Group == NULL) return CAEN_DGTZ_InvalidEvent;
+            memset( x5743Group, 0, sizeof(CAEN_DGTZ_X743_GROUP_t));
+	    
+            x5743Group->ChSize = RecordLength;
+
+	  //datachannel allocation
+	     x5743Group->DataChannel[0] = (float*)malloc(RecordLength*sizeof(float));
+             x5743Group->DataChannel[1] = (float*)malloc(RecordLength*sizeof(float));
+	   data +=4;
+          //loop over samples
+	  for(int j=0; j<RecordLength; j++){
+         //   if(j<10) printf("data: 0x%x \t",*(uint32_t*)data & 0xFFFFFFFF); 
+
+            uint16_t in0 = (uint16_t)(*(uint32_t*)(data)& 0x0000FFFF); 
+    	    uint16_t in1 = (uint16_t)((*(uint32_t*)(data)& 0xFFFF0000)>>16);
+
+         //   if(j<10) printf("| 0x%x \t| 0x%x  \t|\n",in0,in1); 
+
+
+            float data0;
+            float data1;
+                //  =======  float16 --> float32 ch0
+                
+                uint32_t t01;
+        	uint32_t t02;
+        	uint32_t t03;
+
+        	t01 = in0 & 0x7fff;                       // Non-sign bits
+        	t02 = in0 & 0x8000;                       // Sign bit
+        	t03 = in0 & 0x7c00;                       // Exponent
+        
+        	t01 <<= 13;                              // Align mantissa on MSB
+        	t02 <<= 16;                              // Shift sign bit into position
+
+        	t01 += 0x38000000;                       // Adjust bias
+
+        	t01 = (t03 == 0 ? 0 : t01);                // Denormals-as-zero
+        	t01 |= t02;                               // Re-insert sign bit
+	
+		*((uint32_t*)(&data0)) = t01;
+                //  =======  float16 --> float32 ch1
+                uint32_t t11;
+        	uint32_t t12;
+        	uint32_t t13;
+
+        	t11 = in1 & 0x7fff;                       // Non-sign bits
+        	t12 = in1 & 0x8000;                       // Sign bit
+        	t13 = in1 & 0x7c00;                       // Exponent
+        
+        	t11 <<= 13;                              // Align mantissa on MSB
+        	t12 <<= 16;                              // Shift sign bit into position
+
+        	t11 += 0x38000000;                       // Adjust bias
+
+        	t11 = (t13 == 0 ? 0 : t11);                // Denormals-as-zero
+        	t11 |= t12;                               // Re-insert sign bit
+	
+		*((uint32_t*)(&data1)) = t11;
+
+	//	if(j<10) printf("decoded %i)\t| %f \t| %f \t|\n",j,data0,data1);
+
+		if(fabsf(data0)>2500 || fabsf(data1)>2500 ){
+			printf("data: 0x%x \t",*(uint32_t*)data & 0xFFFFFFFF);
+			printf("| 0x%x \t| 0x%x  \t|\n",in0,in1);
+			printf("decoded %i)\t| %f \t| %f \t|\n",j,data0,data1); 		
+		} 
+            if(fabsf(data0)>2500) data0 = 0;      // unp po' grezzo...
+	    if(fabsf(data1)>2500) data1 = 0;
+	  
+     	    x5743Group->DataChannel[0][j] = data0;
+    	    x5743Group->DataChannel[1][j] = data1;
+	
+	    data += 4;
+	  }
+        
+         x5743Event->DataGroup[i] = *x5743Group;
+    	    }
+    
+
+
+    printf("x5743 Event Produced! \n");
+
+   *Evt = x5743Event;
+   return CAEN_DGTZ_Success;
+   }
+#endif

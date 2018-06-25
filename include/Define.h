@@ -1,0 +1,72 @@
+#ifndef DEFINE_H
+#define DEFINE_H
+
+/* Configuration file names */
+#define configBaF "ConfigV1742BaF.txt"
+#define configGCAL "ConfigV1742Calo.txt"
+#define configHPGe "ConfigDT5780.txt"
+#define configDiscr "ConfigV812.txt"
+#define configSiStrip "ConfigV1495.txt"
+#define configNRSS "ConfigDT5743.txt"
+#define runNumberFile "RunNumber.txt"
+
+/* Max number of V1742 digitizers */
+#define MaxV1742 2
+
+/* Max number of DT5743 channels */
+#define MaxDT5743NChannels 8
+
+/* Size of Shared memory Buffer */
+#define CIRCBUFFER_SIZE 3000017
+
+
+/* Shared Memory keys */
+#define keyCSPEC 5684
+#define keyGCAL 5802
+#define keyNRSS 5915
+
+
+/* Run header (in bytes) */
+#define runHeaderSize 4
+
+// Each event data block is preceeed by 3 words of 4 bytes each:
+// SlowControlStatus/timeSec/timenSec
+#define evtHeaderSize 12
+
+/* Data block header size (in bytes) */
+#define caenHeaderSize 4
+
+// Board Id (registro 0xEF08) 
+#define V1742BaFId  4160749568 //0x1F
+#define DT5780Id    3758096384 //0x1C
+#define V1742GCALId 4026531840 //0x1E
+#define DT5743Id    3623878656 //0x1B
+
+
+/* Password for Advanced Setup */
+#define AdvSetupPasswd "eli"
+
+typedef enum {
+  BaFGamma,
+  BaFAlfa,
+  HPGe,
+  SiStrip,
+  GCAL,
+  NRSS,
+  Discr,
+  BaF,
+} Device_t;
+
+typedef enum {
+  RunControl,
+  Producer,
+  Consumer,
+  SlowControl,
+  HPGeSlowControl
+} process_t;
+
+
+// Update rate in sec for the slow control
+#define SlowControlSleepTime 2
+
+#endif

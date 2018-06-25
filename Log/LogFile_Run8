@@ -1,0 +1,38 @@
+
+RunControl: WriteLogHeader 
+Opening Log/LogFile_Run8  
+Date and Time: Tue Jun 19 10:07:36 2018
+ 
+Selected Recipe: NRSS_only-external-v22 
+Device Selection for this run: 
+  NRSS
+
+Run Configuration: 
+  Run Lenght 3600 s 
+  Software Trigger is ON (Rate 10 Hz) 
+RunControl: starting NRSS Producer for Run 8
+RunControl: Starting NRSS Consumer for Run 8
+
+(RunControl:111241): Gtk-CRITICAL **: IA__gtk_spin_button_get_value_as_int: assertion 'GTK_IS_SPIN_BUTTON (spin_button)' failed
+
+(RunControl:111241): Gtk-CRITICAL **: IA__gtk_spin_button_get_value_as_int: assertion 'GTK_IS_SPIN_BUTTON (spin_button)' failed
+
+(RunControl:111241): Gtk-CRITICAL **: IA__gtk_spin_button_get_value_as_int: assertion 'GTK_IS_SPIN_BUTTON (spin_button)' failed
+NRSS Consumer: recipeName NRSS_only-external-v22
+
+NRSS Consumer: Configuring  DAQSharedMemory 
+configDaqSharedMemory: Configuring the shared memory for Consumer 
+DaqSharedMemory created (size 344) 
+DaqSharedMemory attached to Consumer address space: key 9515/0x252B
+
+NRSS Producer: Configuring DAQSharedMemory 
+configDaqSharedMemory: Configuring the shared memory for Producer 
+DaqSharedMemory created (size 344) 
+DaqSharedMemory attached to Producer address space: key 9515/0x252B
+NRSS Consumer: Waiting the start of Producer 1s - stopProducer-1 
+NRSS Consumer: Waiting the start of Producer 2s - stopProducer-1 
+NRSS Consumer: Waiting the start of Producer 3s - stopProducer-1 
+NRSS Consumer: Waiting the start of Producer 4s - stopProducer-1 
+NRSS Consumer: Waiting the start of Producer 5s - stopProducer-1 
+NRSS Consumer: Waiting the start of Producer 6s - stopProducer-1 
+19-06-2018  10:07:52 RunControl: Stopping the acquisition for Run8 

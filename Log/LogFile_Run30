@@ -1,0 +1,15 @@
+
+RunControl: WriteLogHeader 
+Opening Log/LogFile_Run30  
+Date and Time: Wed Jun 20 15:30:55 2018
+ 
+Selected Recipe: nrss_atct_TP-v1 
+Device Selection for this run: 
+  NRSS
+
+Run Configuration: 
+  Run Lenght 100 events 
+  Software Trigger is ON (Rate 10 Hz) 
+20-06-2018  15:31:03 RunControl: Stopping the acquisition for Run30 
+Deleting DaqSharedMemory key: 9515/0x252B
+DaqSharedMemory deleted 

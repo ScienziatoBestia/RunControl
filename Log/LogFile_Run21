@@ -1,0 +1,50 @@
+
+RunControl: WriteLogHeader 
+Opening Log/LogFile_Run21  
+Date and Time: Tue Jun 19 16:56:29 2018
+ 
+Selected Recipe: NRSS_only-external-v22 
+Device Selection for this run: 
+  NRSS
+
+Run Configuration: 
+  Run Lenght 100 events 
+  Software Trigger is ON (Rate 10 Hz) 
+RunControl: starting NRSS Producer for Run 21
+RunControl: Starting NRSS Consumer for Run 21
+
+(RunControl:151938): Gtk-CRITICAL **: IA__gtk_spin_button_get_value_as_int: assertion 'GTK_IS_SPIN_BUTTON (spin_button)' failed
+
+(RunControl:151938): Gtk-CRITICAL **: IA__gtk_spin_button_get_value_as_int: assertion 'GTK_IS_SPIN_BUTTON (spin_button)' failed
+
+(RunControl:151938): Gtk-CRITICAL **: IA__gtk_spin_button_get_value_as_int: assertion 'GTK_IS_SPIN_BUTTON (spin_button)' failed
+
+NRSS Producer: Configuring DAQSharedMemory 
+configDaqSharedMemory: Configuring the shared memory for Producer 
+DaqSharedMemory created (size 344) 
+DaqSharedMemory attached to Producer address space: key 9515/0x252B
+In CONSUMER
+NRSS Consumer: recipeName NRSS_only-external-v22
+
+NRSS Consumer: Configuring  DAQSharedMemory 
+configDaqSharedMemory: Configuring the shared memory for Consumer 
+DaqSharedMemory created (size 344) 
+DaqSharedMemory attached to Consumer address space: key 9515/0x252B
+NRSS Consumer: Configuring the SharedBuffer 
+configSharedBuffer: Configuring the shared buffer for Consumer with key 5915
+circBuffer created (size 3000017) 
+circBuffer configured for Consumer: key 5915/0x171B
+Enetering Consumer Loop
+
+NRSS Consumer: cDaqSharedMemory->stopDAQ 0 
+
+NRSS Consumer: Resetting event counters 
+NRSS Consumer: RunConfig 1376 
+19-06-2018  16:56:36 RunControl: Stopping the acquisition for Run21 
+RunControl: Waiting the termination of children processes 1s - stopProducer 1  stopConsumer 0
+RunControl: Waiting the termination of children processes 2s - stopProducer 1  stopConsumer 0
+RunControl: Waiting the termination of children processes 3s - stopProducer 1  stopConsumer 0
+RunControl: Waiting the termination of children processes 4s - stopProducer 1  stopConsumer 0
+RunControl: Waiting the termination of children processes 5s - stopProducer 1  stopConsumer 0
+Deleting DaqSharedMemory key: 9515/0x252B
+DaqSharedMemory deleted 
